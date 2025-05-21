@@ -94,7 +94,7 @@ app.delete('/api/persons/:id', (req, res) => {
     }
 })
 
-app.get('*', (req, res, next) => {
+app.get('/*', (req, res, next) => {
     if (req.path.startsWith('/api')) return next()
     res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
 })
