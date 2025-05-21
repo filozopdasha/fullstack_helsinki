@@ -1,8 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
-const path = require('path')
-app.use(express.static(path.resolve(__dirname, 'dist')))
+app.use(express.static('build'))
 
 app.use(express.json())
 
@@ -94,12 +93,7 @@ app.delete('/api/persons/:id', (req, res) => {
     }
 })
 
-app.get('/*', (req, res, next) => {
-    if (req.path.startsWith('/api')) return next()
-    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
-})
-
-const PORT = process.env.PORT || 3001
+const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
