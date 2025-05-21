@@ -1,7 +1,8 @@
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
-app.use(express.static('build'))
+const path = require('path')
+app.use(express.static(path.resolve(__dirname, 'dist')))
 
 app.use(express.json())
 
@@ -91,6 +92,9 @@ app.delete('/api/persons/:id', (req, res) => {
     } else {
         res.status(404).json({ error: 'Person not found' })
     }
+})
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
 })
 
 const PORT = 3001
