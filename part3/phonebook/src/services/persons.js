@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'https://fullstack-helsinki-uxzj.onrender.com/persons'
+const baseUrl = 'https://fullstack-helsinki-uxzj.onrender.com/api/persons'
 
 const getAll = () => axios.get(baseUrl).then((res) => res.data)
 
