@@ -93,7 +93,9 @@ app.delete('/api/persons/:id', (req, res) => {
         res.status(404).json({ error: 'Person not found' })
     }
 })
-app.get('*', (req, res) => {
+
+app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next()
     res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
 })
 
