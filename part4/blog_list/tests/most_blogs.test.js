@@ -1,47 +1,56 @@
-const { describe, test } = require('node:test');
-const assert = require('node:assert');
 const { mostBlogs } = require('../utils/list_helper');
 
 describe('mostBlogs', () => {
     test('mostBlogs is empty', () => {
+
         const blogs = [];
-        const result = mostBlogs(blogs);
-        assert.strictEqual(result, null);
+        const res = mostBlogs(blogs);
+        expect(res).toBe(null);
     });
 
-    test('mostBlogs with your random data, author with most blogs', () => {
+    test('mostBlogs, author with most blogs', () => {
         const blogs = [
             {
-                title: 'random user',
-                author: 'random author',
-                url: 'https://test.com',
+                title: 'Really interesting blog',
+                author: 'Daria Filozop',
+                url: 'https://interestingblog.com',
                 likes: 8
             },
             {
-                title: 'random user2',
-                author: 'random author2',
-                url: 'https://test2.com',
+                title: 'Taras Shevchenko',
+                author: 'Sadok Vyshnevyi',
+                url: 'https://poems.com',
                 likes: 3
             },
             {
-                title: 'random user3',
-                author: 'random author3',
-                url: 'https://test3.com',
+                title: 'Ivan Franko',
+                author: 'Son',
+                url: 'https://anotherpoems.com',
                 likes: 9
             },
             {
-                title: 'random user4',
-                author: 'random author',
-                url: 'https://test4.com',
-                likes: 5 },
+                title: 'Another Poem',
+                author: 'Another Poet',
+                url: 'https://poemsagain.com',
+                likes: 5
+            },
             {
-                title: 'random user5',
-                author: 'random author',
-                url: 'https://test5.com',
+                title: 'Interesting blog, but new one',
+                author: 'Interesting Author',
+                url: 'https://coolblogagain.com',
+                likes: 2
+            },
+            {
+                title: 'One else blog',
+                author: 'Daria Filozop',
+                url: 'https://wowcool.com',
                 likes: 2
             }
         ];
         const result = mostBlogs(blogs);
-        assert.deepStrictEqual(result, { author: 'random author', blogs: 3 });
+        expect(result).toEqual({
+            author: 'Daria Filozop',
+            blogs: 2
+        });
     });
 });

@@ -9,8 +9,8 @@ const User = require('../models/user')
 beforeEach(async () => {
     await User.deleteMany({})
 
-    const passwordHash = await bcrypt.hash('sekret', 10)
-    const user = new User({ username: 'root', passwordHash })
+    const hashedPass = await bcrypt.hash('sekret', 10)
+    const user = new User({ username: 'root', passwordHash: hashedPass })
 
     await user.save()
 })
@@ -50,5 +50,67 @@ test('creation fails with proper statuscode and message if username already take
         .expect(400)
         .expect('Content-Type', /application\/json/)
 
-    expect(result.body.error).toContain('`username` to be unique')
+    expect(result.body.error).toMatch(/username.*unique/i)
+})
+
+test('creation fails if username is shorter than 3 characters', async () => {
+    const newUser = {
+        username: 'ab',
+        name: 'Short Name',
+        password: 'validpass'
+    }
+
+    const result = await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+
+    expect(result.body.error).toContain('username should be at least 3 characters long')
+})
+
+test('creation fails if password is shorter than 3 characters', async () => {
+    const newUser = {
+        username: 'validuser',
+        name: 'Name',
+        password: 'pw'
+    }
+
+    const result = await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+
+    expect(result.body.error).toContain('password should be at least 3 characters long')
+})
+
+test('creation fails if username is missing', async () => {
+    const newUser = {
+        name: 'No Username',
+        password: 'validpass'
+    }
+
+    const result = await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+
+    expect(result.body.error).toContain('username should be at least 3 characters long')
+})
+
+test('creation fails if password is missing', async () => {
+    const newUser = {
+        username: 'nouserpass',
+        name: 'No Password'
+    }
+
+    const result = await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+
+    expect(result.body.error).toContain('password should be at least 3 characters long')
+})
+
+afterAll(async () => {
+    await mongoose.connection.close()
 })

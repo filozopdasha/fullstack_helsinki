@@ -1,7 +1,5 @@
-const { describe, test } = require('node:test')
-const assert = require('node:assert')
 const listHelper = require('../utils/list_helper')
-console.log(listHelper)
+
 describe('total likes', () => {
     const oneBlogList = [
         {
@@ -16,37 +14,49 @@ describe('total likes', () => {
 
     const aLotOfBlogsList = [
         {
-            title: 'random user',
-            author: 'random author',
-            url: 'https://test.com',
+            title: 'Really interesting blog',
+            author: 'Daria Filozop',
+            url: 'https://interestingblog.com',
             likes: 8
         },
         {
-            title: 'random user2',
-            author: 'random author2',
-            url: 'https://test2.com',
+            title: 'Sadok Vyshnevyi',
+            author: 'Taras Shevchenko',
+            url: 'https://poems.com',
             likes: 3
         },
         {
-            title: 'random user3',
-            author: 'random author3',
-            url: 'https://test3.com',
+            title: 'Son',
+            author: 'Ivan Franko',
+            url: 'https://anotherpoems.com',
             likes: 9
+        },
+        {
+            title: 'Another Poem',
+            author: 'Another Poet',
+            url: 'https://poemsagain.com',
+            likes: 5
+        },
+        {
+            title: 'Interesting blog, but new one',
+            author: 'Interesting Author',
+            url: 'https://coolblogagain.com',
+            likes: 2
         }
     ]
 
-    test(' list has only one blog, equals likes of that', () => {
+    test('list has only one blog, equals likes of that', () => {
         const result = listHelper.totalLikes(oneBlogList)
-        assert.strictEqual(result, 5)
+        expect(result).toBe(5)
     })
 
-    test(' list has multiple blogs equals summa of likes', () => {
+    test('list has multiple blogs equals summa of likes', () => {
         const result = listHelper.totalLikes(aLotOfBlogsList)
-        assert.strictEqual(result, 15)
+        expect(result).toBe(27)
     })
 
-    test(' list is empty likes should be equal 0', () => {
+    test('list is empty likes should be equal 0', () => {
         const result = listHelper.totalLikes([])
-        assert.strictEqual(result, 0)
+        expect(result).toBe(0)
     })
 })

@@ -1,5 +1,3 @@
-const { describe, test } = require('node:test')
-const { strictEqual, deepStrictEqual } = require('assert')
 const listHelper = require('../utils/list_helper')
 
 const blogs = [
@@ -12,21 +10,21 @@ const blogs = [
         __v: 0
     },
     {
-        title: 'random user',
-        author: 'random author',
-        url: 'https://test.com',
+        title: 'Really interesting blog',
+        author: 'Daria Filozop',
+        url: 'https://interestingblog.com',
         likes: 8
     },
     {
-        title: 'random user2',
-        author: 'random author2',
-        url: 'https://test2.com',
+        title: 'Sadok Vyshnevyi',
+        author: 'Taras Shevchenko',
+        url: 'https://poems.com',
         likes: 3
     },
     {
-        title: 'random user3',
-        author: 'random author3',
-        url: 'https://test3.com',
+        title: 'Son',
+        author: 'Ivan Franko',
+        url: 'https://anotherpoems.com',
         likes: 9
     }
 ]
@@ -34,26 +32,19 @@ const blogs = [
 describe('favorite blog', () => {
     test('when list is empty, return null', () => {
         const result = listHelper.favoriteBlog([])
-        strictEqual(result, null)
+        expect(result).toBe(null)
     })
 
     test('when list has blogs, returns the one with most likes', () => {
+
         const expected = {
-            title: 'random user3',
-            author: 'random author3',
-            url: 'https://test3.com',
+
+            title: 'Son',
+            author: 'Ivan Franko',
+            url: 'https://anotherpoems.com',
             likes: 9
         }
-        const result = listHelper.favoriteBlog(blogs)
-
-        deepStrictEqual(
-            {
-                title: result.title,
-                author: result.author,
-                url: result.url,
-                likes: result.likes
-            },
-            expected
-        )
+        const res = listHelper.favoriteBlog(blogs)
+        expect(res).toMatchObject(expected)
     })
 })
