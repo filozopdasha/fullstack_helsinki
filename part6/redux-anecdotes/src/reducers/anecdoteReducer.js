@@ -1,3 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -7,44 +9,48 @@ const anecdotesAtStart = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
-const getId = () => (100000 * Math.random()).toFixed(0)
 
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
+const generatorOfId = () => (100000 * Math.random()).toFixed(0)
 
-const initialState = anecdotesAtStart.map(asObject)
+const asObject = (anecdote) => ({
 
-const reducer = (state = initialState, action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
+  content: anecdote,
+  id: generatorOfId(),
+  votes: 0,
+})
 
-  switch (action.type) {
-    case 'VOTE': {
+const anecdoteSlice = createSlice({
+  name: 'anecdotes',
+  initialState: [],
+  reducers: {
+
+    voteAnecdote(state, action) {
       const id = action.payload
-      return state.map(anecdote =>
-          anecdote.id === id
-              ? { ...anecdote, votes: anecdote.votes + 1 }
-              : anecdote
-      )
-    }
-    case 'NEW_ANECDOTE': {
-      const content = action.payload
-      const newAnecdote = {
-        content,
-        id: getId(),
-        votes: 0
+      const anecdoteToChange = state.find(a => a.id === id)
+      if (anecdoteToChange) {
+        anecdoteToChange.votes += 1
       }
-      return [...state, newAnecdote]
-    }
+    },
+    createAnecdote(state, action) {
+      state.push(action.payload)
+    },
+    setAnecdotes(state, action) {
 
-    default:
-      return state
+
+      return action.payload
+    }
   }
+})
+
+export const { voteAnecdote, createAnecdote, setAnecdotes } = anecdoteSlice.actions
+
+export const initializeAnecdotes = () => {
+  return dispatch => {
+
+    const anecdotes = anecdotesAtStart.map(asObject)
+    dispatch(setAnecdotes(anecdotes))
+  }
+
 }
 
-export default reducer
+export default anecdoteSlice.reducer
